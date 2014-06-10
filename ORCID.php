@@ -168,7 +168,7 @@ class ORCID {
 
         }
 
-        return $finalResults;
+        return array('entity_type' => 'person', 'items' => $finalResults);
    }
 
 }
