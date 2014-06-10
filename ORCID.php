@@ -38,20 +38,20 @@ class ORCID {
         $orcIDQuery = null;
         $emailQuery = null;
 
-        if(array_key_exists("gname", $values)) {
-            $givenNameQuery = $values["gname"];
+        if(array_key_exists("gname", $values) && strlen($values["gname"])>0) {
+            $givenNameQuery = $values["gname"] . '*';
         }
 
-        if(array_key_exists("fname", $values)) {
-            $familyNameQuery = $values["fname"];
+        if(array_key_exists("fname", $values) && strlen($values["fname"])>0) {
+            $familyNameQuery = $values["fname"] . '*';
         }
 
-        if(array_key_exists("orcid", $values)) {
-            $orcIDQuery = $values["orcid"];
+        if(array_key_exists("orcid", $values) && strlen($values["orcid"])>0) {
+            $orcIDQuery = $values["orcid"] . '*';
         }
 
-        if(array_key_exists("email", $values)) {
-            $emailQuery = $values["email"];
+        if(array_key_exists("email", $values) && strlen($values["email"])>0) {
+            $emailQuery = $values["email"] . '*';
         }
 
         $finalQuery = "";
