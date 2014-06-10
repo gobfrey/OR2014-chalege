@@ -11,7 +11,6 @@ class ORCID {
            of the API url and then process it to generate our generic "person" format. */
 
         $url = $this->_createORCIDURL($values);
-        print $url;
 
         $opts = array(
             'http'=>array(
