@@ -174,9 +174,18 @@ class ORCID {
 }
 
 
+function get_data_person($parameters) {
+    // Cheat a little - this is the "person" data provider.
+    $orcid = new ORCID();
+    return $orcid->perform($parameters);
+}
+
+
+/*
 $test = new ORCID();
 
 //$r = $test->perform(array("fname" => "Taylor", "gname" => "Martin"));
 $r = $test->perform(array("email" => "*@auckland.ac.nz"));
 
 print_r($r);
+*/
