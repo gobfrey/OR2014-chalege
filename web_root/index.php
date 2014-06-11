@@ -1,6 +1,7 @@
 <?php
 
 require('../ORCID.php');
+require('../eprint-export.php');
 
 $f3=require('../fatfree-master/lib/base.php');
 $f3->config('config.ini');
