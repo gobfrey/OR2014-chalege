@@ -65,12 +65,12 @@ array(
 
 
 
-function export_eprints($fmldata)
+function send_data_eprints($fmldata)
 {
 	#print_r($fmldata);
-	echo count($fmldata["items"]);
+#	echo count($fmldata["items"]);
 	
-	echo "\n";
+#	echo "\n";
 	
 	$ul = new SimpleXMLElement('<ul/>');
 	foreach ($fmldata["items"] as $item)
@@ -78,15 +78,19 @@ function export_eprints($fmldata)
 		$given_name = $item["structured_val"]["given_name"];
 		$family_name = $item["structured_val"]["family_name"];
 		$orcid = $item["id"];
-		print_r($item["structured_val"]["given_name"]);
-		print_r($item["structured_val"]["family_name"]);
-		print_r($item["id"]);
-		print ($given_name. $family_name. $orcid);
+#		print_r($item["structured_val"]["given_name"]);
+#		print_r($item["structured_val"]["family_name"]);
+#		print_r($item["id"]);
+#		print ($given_name. $family_name. $orcid);
 
 		$li = $ul -> addChild('li');	
 		$li -> addChild("span",$given_name.", ".$family_name." [".$orcid."]");
-		#$fillul = $li -> addChild("ul");
-		#$fillul -> addChild("li");
+
+##adding the autofill data
+
+		$fillul = $li -> addChild("ul");
+		$fillli = $fillul -> addChild("li",$family_name);
+		$fillli -> addAttribute('id', 'for:value:relative:_name_family');
 
 	}	
 
@@ -101,18 +105,18 @@ function export_eprints($fmldata)
    # 		$track->addChild('title', "Track $i - Track Title");
 #	}
 
-	Header('Content-type: text/xml');
+	header('Content-type: text/xml');
 	$rtn = $ul->asXML();
-	print($rtn);
+	echo $rtn;
 
 
-	send_data_eprints($rtn);
+#	send_data_eprints($rtn);
 
 
 } 
 
 
-export_eprints($data);
+send_data_eprints($data);
 
 
 ?>
