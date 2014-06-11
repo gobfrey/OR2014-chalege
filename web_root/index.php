@@ -32,8 +32,10 @@ function get_data_equipment($params)
 
 	#give this its own parameter
 	$search_string = strtolower($params['equipment']);
-	$institution = strtolower($params['institution']);
-
+	$institution = '';
+	if(array_key_exists('institution',$params)) {
+		$institution = strtolower($params['institution']);
+	}
 	$data = array('entity_type' => 'equipment', 'items' => array());
 
 	if (!$search_string)
@@ -59,9 +61,9 @@ function get_data_equipment($params)
 
 			$match = array();
 			$match['rendered_val'] = $item['Name'];
-			$match['structured_cal'] = array('name' => $item['Name']);
+			$match['structured_val'] = array('name' => $item['Name']);
 			$match['id'] = $item['__URI'];
-			$match['id_source'] = 'http://equipment.data.ac.uk';
+			$match['id_src'] = 'http://equipment.data.ac.uk';
 
 			$match['hints'] = array();
 			if ($item['Institution Name'])
