@@ -59,11 +59,6 @@ array(
 
 
 
-
-
-
-
-
 function send_data_eprints($f3,$fmldata)
 {
 	$ul = new SimpleXMLElement('<ul/>');
@@ -100,7 +95,6 @@ function send_data_eprints($f3,$fmldata)
 #	send_data_eprints($data,$data);
 
  
-
 
 
 ?>
