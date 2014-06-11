@@ -1,4 +1,4 @@
-<?
+<?php
 $data = array(
 'entity_type' => 'person',
 'items' => array(
