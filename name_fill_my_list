@@ -1,0 +1,97 @@
+use EPrints;
+
+use strict;
+
+my $session = EPrints::Session->new();
+
+# security?
+
+my $content = "text/xml";
+$session->send_http_header( content_type=>$content );
+my $family = $session->param( "_name_family" );
+my $given = $session->param( "_name_given" );
+my $id = $session->param( "_id" );
+
+
+print STDERR "family:$family\n";
+print STDERR "given:$given\n";
+
+
+
+use LWP::Simple;
+
+my $url = "http://www.fml.adamfield.net/fillmylist?entity_type=person&output=eprints&fname=$family&gname=$given&orcid=$id";
+print STDERR "myurl : $url\n";
+my $content = get $url;
+die "Couldn't get $url" unless defined $content;
+
+
+
+binmode(STDOUT,":utf8");
+print $content;
+
+exit();
+
+
+
+
+
+print STDERR "HERE\n";
+
+
+binmode(STDOUT,":utf8");
+print <<END;
+<?xml version="1.0"?>
+<ul><li><span>Smith, Smith [;alkdfjglkjhdslfkj]</span><ul><li id="for:value:relative:_name_family">Smith</li></ul></li><li><span>Dave, Spalding [foosmithbar]</span><ul><li id="for:value:relative:_name_family">Spalding</li></ul></li><li><span>Laura, Jones [lskdjflskdjflskdjf]</span><ul><li id="for:value:relative:_name_family">Jones</li></ul></li></ul>
+END
+
+
+$session->terminate;
+
+exit();
+
+
+my $database = $session->get_database;
+my $dataset = $session->dataset( "eprint" );
+my $name_field = $dataset->get_field( "creators_name" );
+my $id_field = $dataset->get_field( "creators_id" );
+
+
+
+
+my @rows;
+
+
+
+#$data = [
+
+
+#]
+use Data::Dumper;
+
+my $ul = EPrints::Extras::render_lookup_list( $session, \@rows );
+
+$session->send_http_header( content_type => "text/xml; charset=UTF-8" );
+
+binmode(STDOUT,":utf8");
+print <<END;
+<?xml version="1.0" encoding="UTF-8" ?>
+<ul><li class="ep_first"><span class="person_name">jiadi, yao</span> 030405<small> (author of 1 item(s) in this repository)</small><ul><li id="for:value:relative:_name_family">jiadi</li><li id="for:value:relative:_name_given">yao</li><li id="for:value:relative:_name_honourific"/><li id="for:value:relative:_name_lineage"/><li id="for:value:relative:_id">030405</li></ul></li><li><span class="person_name">john, smith</span> 398045<small> (author of 1 item(s) in this repository)</small><ul><li id="for:value:relative:_name_family">john</li><li id="for:value:relative:_name_given">smith</li><li id="for:value:relative:_name_honourific"/><li id="for:value:relative:_name_lineage"/><li id="for:value:relative:_id">398045</li></ul></li></ul>
+END
+
+
+
+#print EPrints::XML::to_string( $ul, "utf-8", 1 );
+
+
+#print $output
+
+
+
+
+
+
+EPrints::XML::dispose( $ul );
+
+$session->terminate;
+
